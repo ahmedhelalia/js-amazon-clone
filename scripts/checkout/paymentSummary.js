@@ -25,7 +25,7 @@ export function renderPaymentSummary() {
         </div>
 
         <div class="payment-summary-row">
-          <div>Items (3):</div>
+          <div class="js-items-count-ps">Items (3):</div>
           <div class="payment-summary-money">
           $${formatCurrency(productPriceCents)}
           </div>
@@ -66,5 +66,6 @@ export function renderPaymentSummary() {
 
   document.querySelector('.js-payment-summary')
   .innerHTML = paymentSummaryHTML;
+  document.querySelector('.js-items-count-ps').innerHTML = `items (${localStorage.getItem('cartQuantity')})`
 }
 
