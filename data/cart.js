@@ -3,7 +3,7 @@ export let cart;
 loadFromStorage();
 
 export function loadFromStorage() {
-  cart = JSON.parse(localStorage.getItem('cart')) ;
+  cart = JSON.parse(localStorage.getItem('cart')) || [];
 }
 
 function saveToStorage() {
