@@ -154,5 +154,21 @@ describe('test suite: update delivery option', () => {
     expect(cart[0].deliveryOptionId).toEqual('1');
     expect(cart.length).toEqual(1);
   });
+
+  it('does nothing if the delivery option is not in the delivery options', () => {
+    updateDeliveryOption(productId, '4');
+    
+    expect(localStorage.setItem).not.toHaveBeenCalledWith('cart', JSON.stringify([{
+      productId: productId,
+      quantity: 1,
+      deliveryOptionId: '1'
+    }]));
+
+    expect(localStorage.setItem).toHaveBeenCalledTimes(0);
+    expect(cart[0].productId).toEqual(productId);
+    expect(cart[0].quantity).toEqual(1);
+    expect(cart[0].deliveryOptionId).toEqual('1');
+    expect(cart.length).toEqual(1);
+  });
 });
 
