@@ -70,6 +70,16 @@ describe('test suite: render order summary', () => {
     expect(cart[0].productId).toEqual(productIdTwo);
   })
 
+  it('updates delivery option', () => {
+    document.querySelector(`.js-test-delivery-option-${productIdOne}-3`).click();
+    expect(document.querySelector(`.js-test-delivery-option-input-${productIdOne}-3`).checked).toEqual(true);
+    expect(cart.length).toEqual(2);
+    expect(cart[0].productId).toEqual(productIdOne);
+    expect(cart[0].deliveryOptionId).toEqual('3');
+    expect(document.querySelector('.js-test-shipping-price').innerText).toEqual('$14.98');
+    expect(document.querySelector('.js-test-total-price').innerText).toEqual('$63.50');
+  });
+
   afterEach(() => {
     document.querySelector('.js-test-container').innerHTML = '';
   })
