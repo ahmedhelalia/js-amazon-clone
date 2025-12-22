@@ -1,9 +1,9 @@
-import {cart} from '../../data/cart.js';
+import { Cart } from '../../data/cart.js';
 import { getProduct } from '../../data/products.js';
 import { getDeliveryOption } from '../../data/delivery-options.js';
 import { formatCurrency } from '../utils/money.js';
 
-export function renderPaymentSummary() {
+export function renderPaymentSummary(cart) {
   let productPriceCents = 0;
   let shippingPriceCents = 0;
 
@@ -65,7 +65,7 @@ export function renderPaymentSummary() {
   `;
 
   document.querySelector('.js-payment-summary')
-  .innerHTML = paymentSummaryHTML;
+    .innerHTML = paymentSummaryHTML;
   document.querySelector('.js-items-count-ps').innerHTML = `items (${localStorage.getItem('cartQuantity')})`
 }
 

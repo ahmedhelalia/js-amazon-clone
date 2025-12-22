@@ -1,11 +1,12 @@
-import { cart } from "../../data/cart.js";
+import { Cart } from "../../data/cart.js";
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
 
 describe('test suite: render order summary', () => {
-
+  let cart;
   const productIdOne = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6';
   const productIdTwo = '15b6fc6f-327a-4ec4-896f-486349e85a3d';
 
+  let mockCartData;
   // a hook that will run before each test
   beforeEach(() => {
     document.querySelector('.js-test-container').innerHTML = `
@@ -13,26 +14,32 @@ describe('test suite: render order summary', () => {
     <div class='js-return-home'> </div>
     <div class='js-payment-summary'> </div>
     `;
+    mockCartData = [{
+      productId: productIdOne,
+      quantity: 2,
+      deliveryOptionId: '1'
+    }, {
+      productId: productIdTwo,
+      quantity: 1,
+      deliveryOptionId: '2'
+    }];
 
-    spyOn(localStorage, 'setItem')
-    spyOn(localStorage, 'getItem').and.callFake(() => {
-      return JSON.stringify([{
-        productId: productIdOne,
-        quantity: 2,
-        deliveryOptionId: '1'
-      }, {
-        productId: productIdTwo,
-        quantity: 1,
-        deliveryOptionId: '2'
-      }]);
+    let mockStorage = {
+      'cartOrderTest': JSON.stringify(mockCartData)
+    }
 
+    spyOn(localStorage, 'getItem').and.callFake((key) => {
+      return mockStorage[key];
     });
 
-    cart.loadFromStorage();
+    spyOn(localStorage, 'setItem').and.callFake((key, value) => {
+      mockStorage[key] = value;
+    });
 
-    renderOrderSummary();
+    cart = new Cart('cartOrderTest');
+    renderOrderSummary(cart);
   });
-  
+
   // test how the page looks
   it('displays the cart', () => {
     expect(document.querySelectorAll('.js-test-cart-item-container').length).toEqual(2);
@@ -53,7 +60,7 @@ describe('test suite: render order summary', () => {
   // test how the page behaves
   it('removes a product', () => {
     document.querySelector(`.js-test-delete-link-${productIdOne}`).click();
-
+    cart = new Cart('cartOrderTest');
     expect(document.querySelector(`.js-test-product-quantity-${productIdOne}`)).toEqual(null);
 
     expect(document.querySelector(`.js-test-product-quantity-${productIdTwo}`)).not.toEqual(null);
@@ -68,6 +75,7 @@ describe('test suite: render order summary', () => {
 
   it('updates delivery option', () => {
     document.querySelector(`.js-test-delivery-option-${productIdOne}-3`).click();
+    cart = new Cart('cartOrderTest');
     expect(document.querySelector(`.js-test-delivery-option-input-${productIdOne}-3`).checked).toEqual(true);
     expect(cart.cartItems.length).toEqual(2);
     expect(cart.cartItems[0].productId).toEqual(productIdOne);
