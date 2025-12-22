@@ -55,9 +55,9 @@ export function removeFromCart(productId) {
     }
   })
   cart = newCart;
-  let cartQuantity = calculateCartQuantity();
-  localStorage.setItem('cartQuantity', cartQuantity);
-  //console.log(localStorage.getItem('cartQuantity'));
+  // let cartQuantity = calculateCartQuantity();
+  // localStorage.setItem('cartQuantity', cartQuantity);
+  // console.log(localStorage.getItem('cartQuantity'));
   saveToStorage();
 }
 
