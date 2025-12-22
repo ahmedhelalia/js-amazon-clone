@@ -159,4 +159,3 @@ export function renderOrderSummary() {
 
   document.querySelector('.js-return-home').innerHTML = localStorage.getItem('cartQuantity');
 }
-cart.loadFromStorage();
