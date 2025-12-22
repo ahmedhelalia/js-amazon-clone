@@ -1,5 +1,5 @@
 import { deliveryOptions } from './delivery-options.js';
-class Cart {
+export class Cart {
   cartItems = [];
   #localStorageKey;
 
@@ -109,4 +109,3 @@ class Cart {
     this.saveToStorage();
   }
 }
-export const cart = new Cart('cartItems');

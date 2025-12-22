@@ -1,7 +1,6 @@
-import { cart } from '../data/cart.js';
+import { Cart } from '../data/cart.js';
 import { products } from '../data/products.js';
-import { formatCurrency } from './utils/money.js';
-
+const cart = new Cart('cartItems');
 let productHTML = '';
 
 products.forEach((product) => {
