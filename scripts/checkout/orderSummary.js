@@ -1,12 +1,12 @@
-import { calculateCartQuantity, cart, removeFromCart, updateQuantity, updateDeliveryOption } from '../../data/cart.js';
+import { Cart } from '../../data/cart.js';
 import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import { deliveryOptions, getDeliveryOption, calculateDeliveryDate } from '../../data/delivery-options.js'
 import { renderPaymentSummary } from './paymentSummary.js'
-export function renderOrderSummary() {
 
+export function renderOrderSummary(cart) {
   let cartSummaryHTML = '';
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
 
     const productId = cartItem.productId;
 
@@ -35,7 +35,7 @@ export function renderOrderSummary() {
                     ${matchingProduct.name}
                   </div>
                   <div class="product-price js-test-product-price-${matchingProduct.id}">
-                    $${formatCurrency(matchingProduct.priceCents)}
+                        ${matchingProduct.getPrice()}
                   </div>
                   <div class="product-quantity 
                   js-test-product-quantity-${matchingProduct.id}">
@@ -101,10 +101,10 @@ export function renderOrderSummary() {
     .forEach((link) => {
       link.addEventListener('click', () => {
         const productId = link.dataset.productId;
-        removeFromCart(productId);
-        renderOrderSummary();
+        cart.removeFromCart(productId);
+        renderOrderSummary(cart);
         updateCartQuantity();
-        renderPaymentSummary();
+        renderPaymentSummary(cart);
       })
 
     })
@@ -133,7 +133,7 @@ export function renderOrderSummary() {
           return;
         }
 
-        updateQuantity(productId, newQuantity);
+        cart.updateQuantity(productId, newQuantity);
         updateCartQuantity();
         const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
         quantityLabel.innerHTML = newQuantity;
@@ -142,22 +142,21 @@ export function renderOrderSummary() {
     })
 
   function updateCartQuantity() {
-    const cartQuantity = calculateCartQuantity();
+    const cartQuantity = cart.calculateCartQuantity();
     document.querySelector('.js-return-home').innerHTML = cartQuantity;
     localStorage.setItem('cartQuantity', cartQuantity);
-    renderPaymentSummary();
+    renderPaymentSummary(cart);
   }
 
   document.querySelectorAll('.js-delivery-option')
     .forEach((element) => {
       element.addEventListener('click', () => {
         const { productId, deliveryOptionId } = element.dataset;
-        updateDeliveryOption(productId, deliveryOptionId);
-        renderOrderSummary();
-        renderPaymentSummary();
+        cart.updateDeliveryOption(productId, deliveryOptionId);
+        renderOrderSummary(cart);
+        renderPaymentSummary(cart);
       })
     })
 
   document.querySelector('.js-return-home').innerHTML = localStorage.getItem('cartQuantity');
 }
-
