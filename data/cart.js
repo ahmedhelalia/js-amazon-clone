@@ -109,3 +109,13 @@ export class Cart {
     this.saveToStorage();
   }
 }
+
+export function loadCart(fn) {
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', () => {
+    console.log(xhr.response);
+    fn();
+  });
+  xhr.open('GET', 'https://supersimplebackend.dev/cart');
+  xhr.send();
+}
