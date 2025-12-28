@@ -1,8 +1,10 @@
 import { Cart } from '../data/cart.js';
-import { products, loadProducts } from '../data/products.js';
+import { products, fetchProducts } from '../data/products.js';
 const cart = new Cart('cartItems');
 
-loadProducts(renderProductsGrid);
+fetchProducts().then(() => {
+  renderProductsGrid();
+});
 
 function renderProductsGrid() {
   let productHTML = '';

@@ -1,6 +1,6 @@
 import { Cart } from "../../data/cart.js";
 import { renderOrderSummary } from "../../scripts/checkout/orderSummary.js";
-import { loadProducts } from "../../data/products.js";
+import { fetchProducts } from "../../data/products.js";
 
 describe('test suite: render order summary', () => {
   let cart;
@@ -8,7 +8,9 @@ describe('test suite: render order summary', () => {
   const productIdTwo = '15b6fc6f-327a-4ec4-896f-486349e85a3d';
 
   beforeAll((done) => {
-    loadProducts(done);
+    fetchProducts().then(() => {
+      done();
+    });
   })
 
   let mockCartData;
