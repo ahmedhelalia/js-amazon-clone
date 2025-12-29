@@ -99,6 +99,6 @@ export function fetchProducts() {
   });
   return promise;
 }
-fetchProducts().then(() => {
-  console.log('next step')
-});
+// fetchProducts().then(() => {
+//   console.log('next step')
+// });

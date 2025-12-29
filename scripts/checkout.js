@@ -7,6 +7,23 @@ import { loadCart } from "../data/cart.js";
 
 const cart = new Cart('cartItems');
 
+async function loadPage() {
+  await fetchProducts();
+
+  await new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    })
+  });
+
+  renderCheckOutHeader();
+  renderOrderSummary(cart);
+  renderPaymentSummary(cart);
+}
+
+loadPage();
+
+/*
 Promise.all([
   fetchProducts(),
   new Promise((resolve) => {
@@ -20,7 +37,7 @@ Promise.all([
   renderOrderSummary(cart);
   renderPaymentSummary(cart);
 })
-
+*/
 // new Promise((resolve) => {
 //   loadProducts(() => {
 //     resolve();
