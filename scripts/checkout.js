@@ -8,13 +8,20 @@ import { loadCart } from "../data/cart.js";
 const cart = new Cart('cartItems');
 
 async function loadPage() {
-  await fetchProducts();
+  try {
+    // throw 'error1';
+    await fetchProducts();
 
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
-    })
-  });
+    await new Promise((resolve, reject) => {
+      loadCart(() => {
+        //reject()
+        resolve();
+      })
+    });
+  } catch (error) {
+    console.log('Unexpected error! Please try again later')
+  }
+  
 
   renderCheckOutHeader();
   renderOrderSummary(cart);
