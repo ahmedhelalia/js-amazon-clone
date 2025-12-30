@@ -110,12 +110,19 @@ export class Cart {
   }
 }
 
-export function loadCart(fn) {
-  const xhr = new XMLHttpRequest();
-  xhr.addEventListener('load', () => {
-    console.log(xhr.response);
-    fn();
-  });
-  xhr.open('GET', 'https://supersimplebackend.dev/cart');
-  xhr.send();
+// export function loadCart(fn) {
+//   const xhr = new XMLHttpRequest();
+//   xhr.addEventListener('load', () => {
+//     console.log(xhr.response);
+//     fn();
+//   });
+//   xhr.open('GET', 'https://supersimplebackend.dev/cart');
+//   xhr.send();
+// }
+
+export async function fetchCart() {
+  const cart = await fetch('https://supersimplebackend.dev/cart');
+  const response = await cart.text();
+  console.log(response);
+  return response;
 }
