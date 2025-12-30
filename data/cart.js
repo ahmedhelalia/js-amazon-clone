@@ -27,19 +27,24 @@ export class Cart {
     })
 
     const addedSelector = document.querySelector(`.js-added-to-cart-${productId}`);
-    addedSelector.classList.add('added-to-cart-visible')
-    if (addedMessageTimeout) {
-      clearTimeout(addedMessageTimeout);
+    if (addedSelector) {
+      addedSelector.classList.add('added-to-cart-visible')
+      if (addedMessageTimeout) {
+        clearTimeout(addedMessageTimeout);
+      }
+      addedMessageTimeout = setTimeout(() => {
+        addedSelector.classList.remove('added-to-cart-visible')
+      }, 2000);
     }
-    addedMessageTimeout = setTimeout(() => {
-      addedSelector.classList.remove('added-to-cart-visible')
-    }, 2000);
 
     const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
-    let selectedQuantity = quantitySelector.value;
+    let selectedQuantity = 1;
+    if (quantitySelector) {
+      selectedQuantity = quantitySelector.value;
+    }
 
     if (matchingItem) {
-      matchingItem.quantity++;
+      matchingItem.quantity += Number(selectedQuantity);
     } else {
       this.cartItems.push({
         productId: productId,

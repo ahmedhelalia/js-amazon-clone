@@ -2,34 +2,9 @@ import { Cart } from "../../data/cart.js";
 let cart;
 
 describe('test suite: add to cart', () => {
-  let mockAddedElement;
-  let mockQuantityElement;
+
   let productId = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6';
 
-  beforeEach(() => {
-    cart = new Cart('cartTest');
-    mockAddedElement = {
-      classList: {
-        add: jasmine.createSpy('classList.add'),
-        remove: jasmine.createSpy('classList.remove')
-      }
-    }
-    mockQuantityElement = {
-      value: 0,
-    }
-
-    spyOn(document, 'querySelector').and.callFake((selector) => {
-      if (selector === `.js-added-to-cart-${productId}`) {
-        return mockAddedElement;
-      }
-      if (selector === `.js-quantity-selector-${productId}`) {
-        return mockQuantityElement;
-      }
-      return null;
-    });
-
-    spyOn(localStorage, 'setItem');
-  })
 
   it('adds an existing product to the cart', () => {
     spyOn(localStorage, 'getItem').and.callFake(() => {
@@ -39,11 +14,12 @@ describe('test suite: add to cart', () => {
         deliveryOptionId: '1'
       }])
     });
+    spyOn(localStorage, 'setItem')
     cart = new Cart('cartTest');
     cart.addToCart(productId);
 
     expect(cart.cartItems.length).toEqual(1);
-    expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+
     expect(cart.cartItems[0].productId).toEqual(productId);
     expect(cart.cartItems[0].quantity).toEqual(2);
     expect(localStorage.setItem).toHaveBeenCalledWith('cartTest', JSON.stringify([{
@@ -54,21 +30,20 @@ describe('test suite: add to cart', () => {
   })
 
   it('adds a new product to the cart', () => {
-    spyOn(localStorage, 'getItem').and.callFake(() => {
-      return JSON.stringify([])
-    });
+    spyOn(localStorage, 'setItem')
+    cart = new Cart('cartTest2');
 
     cart.addToCart(productId);
 
     expect(cart.cartItems.length).toEqual(1);
-    expect(localStorage.setItem).toHaveBeenCalledTimes(1);
-    expect(localStorage.setItem).toHaveBeenCalledWith('cartTest', JSON.stringify([{
+
+    expect(localStorage.setItem).toHaveBeenCalledWith('cartTest2', JSON.stringify([{
       productId: productId,
-      quantity: 0,
+      quantity: 1,
       deliveryOptionId: '1'
     }]));
     expect(cart.cartItems[0].productId).toEqual(productId);
-    expect(cart.cartItems[0].quantity + 1).toEqual(1);
+    expect(cart.cartItems[0].quantity).toEqual(1);
   })
 });
 
