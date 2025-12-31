@@ -3,7 +3,7 @@
  This project was built to simulate a real-world shopping experience while focusing on core JavaScript concepts such as DOM manipulation, Object-Oriented Programming (OOP), and ES6 Modules.
 
 ## 🚀 Live Demo
-[View Live Demo](#)
+[View Live Demo](https://ahmedhelalia.github.io/js-amazon-clone/)
 
 ## 🎯 Project Objectives
 The primary goal of this project was to enhance vanilla JavaScript skills by building a complex application without relying on heavy frameworks like React or Vue initially. Key learning areas included:
